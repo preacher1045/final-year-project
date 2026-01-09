@@ -1,0 +1,41 @@
+{
+  "metric_type": "bandwidth",
+  "description": "Bandwidth patterns for normal traffic",
+  "window_count": 25,
+  "bytes_per_second": {
+    "mean": 137761.65,
+    "median": 42857.46,
+    "min": 7323.35,
+    "max": 549460.26,
+    "p90": 418346.43,
+    "p99": 549460.26,
+    "rolling_avg_mean": 134759.9587,
+    "rolling_avg_median": 131400.3333,
+    "rolling_avg_min": 8342.7776,
+    "rolling_avg_max": 397794.9916
+  },
+  "packets_per_second": {
+    "mean": 352.03,
+    "median": 172.15,
+    "min": 49.44,
+    "max": 1180.75,
+    "p90": 969.71,
+    "p99": 1180.75,
+    "rolling_avg_mean": 345.0988,
+    "rolling_avg_median": 337.3394,
+    "rolling_avg_min": 64.0641,
+    "rolling_avg_max": 888.5644
+  },
+  "bytes_per_window": {
+    "mean": 1345965.0,
+    "median": 426761,
+    "min": 73065,
+    "max": 5476676
+  },
+  "packets_per_window": {
+    "mean": 3446.0,
+    "median": 1713,
+    "min": 491,
+    "max": 11769
+  }
+}

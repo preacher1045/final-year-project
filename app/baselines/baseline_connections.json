@@ -1,0 +1,39 @@
+{
+  "metric_type": "connection",
+  "description": "Connection characteristics for normal traffic",
+  "window_count": 25,
+  "connection_attempts": {
+    "mean": 2.24,
+    "median": 2,
+    "min": 0,
+    "max": 8
+  },
+  "successful_connections": {
+    "mean": 1.8,
+    "median": 1,
+    "min": 0,
+    "max": 8
+  },
+  "failed_connections": {
+    "mean": 0.36,
+    "median": 0,
+    "min": 0,
+    "max": 2
+  },
+  "connection_duration_s": {
+    "mean": 0.1439,
+    "median": 0.1362,
+    "min": 0.0932,
+    "max": 0.2234,
+    "rolling_avg_mean": 0.1445,
+    "rolling_avg_median": 0.1341,
+    "rolling_avg_min": 0.0934,
+    "rolling_avg_max": 0.2097
+  },
+  "bytes_per_connection": {
+    "mean": 4929.29,
+    "median": 1616.74,
+    "min": 304.27,
+    "max": 19559.56
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "metric_type": "protocol",
+  "description": "Protocol distribution patterns",
+  "window_count": 25,
+  "protocol_distribution": {
+    "transport": {
+      "count": 28504,
+      "percentage": 33.09
+    },
+    "17": {
+      "count": 25060,
+      "percentage": 29.09
+    },
+    "0x0800": {
+      "count": 22703,
+      "percentage": 26.36
+    },
+    "0x8100": {
+      "count": 5761,
+      "percentage": 6.69
+    },
+    "6": {
+      "count": 1199,
+      "percentage": 1.39
+    },
+    "0x0806": {
+      "count": 1076,
+      "percentage": 1.25
+    },
+    "0x86dd": {
+      "count": 957,
+      "percentage": 1.11
+    },
+    "2": {
+      "count": 750,
+      "percentage": 0.87
+    },
+    "0x8863": {
+      "count": 74,
+      "percentage": 0.09
+    },
+    "0x3689": {
+      "count": 36,
+      "percentage": 0.04
+    },
+    "0x2589": {
+      "count": 20,
+      "percentage": 0.02
+    }
+  },
+  "total_packets_analyzed": 86140
+}

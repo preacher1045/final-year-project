@@ -1,0 +1,33 @@
+app:
+  name: Smart Network Traffic Analyzer
+  short_name: SNTA
+  version: 1.0.0
+  description: A tool for analyzing and visualizing network traffic data.
+  environment: development
+
+runtime:
+  debug: true
+  log_level: info
+
+mode:
+  analysis_mode: pcapng
+  exit_after_run: true
+
+paths:
+  data_directory: 
+    raw_data: /data/raw/pcapng/test_net_traffic.pcapng
+    processed_data: /var/data/snta/processed
+    base_data: /var/data/snta/base
+    
+  logs:
+    directory: logs/
+    application_log: logs/app.log
+  
+  report:
+    figures: reports/figures/
+    tables: reports/tables/
+
+pcap:
+  file_extension: ".pcap"
+  default_pcap_file: /var/data/snta/raw/default.pcap
+  max_packet: 0 # 0 means no limit

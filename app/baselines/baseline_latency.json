@@ -1,0 +1,29 @@
+{
+  "metric_type": "latency",
+  "description": "Latency patterns for normal traffic",
+  "window_count": 25,
+  "tcp_rtt_ms": {
+    "mean": 143.62,
+    "median": 136.01,
+    "min": 93.04,
+    "max": 223.17,
+    "p90": 211.59,
+    "p99": 223.17,
+    "rolling_avg_mean": 144.1405,
+    "rolling_avg_median": 133.8015,
+    "rolling_avg_min": 93.2136,
+    "rolling_avg_max": 209.1427
+  },
+  "request_response_ms": {
+    "mean": 76.71,
+    "median": 63.68,
+    "min": 4.56,
+    "max": 255.42,
+    "p90": 145.44,
+    "p99": 255.42,
+    "rolling_avg_mean": 75.2009,
+    "rolling_avg_median": 71.427,
+    "rolling_avg_min": 23.4885,
+    "rolling_avg_max": 142.6815
+  }
+}
