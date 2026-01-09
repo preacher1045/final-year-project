@@ -38,7 +38,7 @@ from app.main import setup_logging
 
 class APIConfig:
     """Configuration for the API server."""
-    DEBUG = True
+    DEBUG = False
     TESTING = False
     HOST = '127.0.0.1'
     PORT = 5000
