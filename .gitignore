@@ -25,6 +25,7 @@ data/raw/
 data/uploads/
 data/processes/
 data/baselines/
+data/training_data/
 *.pcap
 *.pcapng
 *.cap

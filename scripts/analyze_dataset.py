@@ -179,8 +179,9 @@ def print_report(metrics_path: str = None, pcap_path: str = None):
         metrics_file = '/tmp/temp_metrics.jsonl'
         cmd = [
             sys.executable,
-            'scripts/run_metrics.py',
+            'scripts/extract_metrics_sampled.py',
             '--pcap', pcap_path,
+            '--sample-rate', '0.10',
             '--out', metrics_file
         ]
         

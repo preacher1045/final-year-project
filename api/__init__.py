@@ -43,8 +43,6 @@ Endpoints:
 __version__ = '1.0.0'
 __all__ = [
     'api_server',
-    'routes_metrics',
     'route_anomalies',
-    'routes_baselines',
     'routes_control'
 ]

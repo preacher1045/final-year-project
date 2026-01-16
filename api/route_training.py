@@ -180,11 +180,12 @@ def train_model():
             if not pcap_path or not os.path.exists(pcap_path):
                 return jsonify({'success': False, 'error': 'PCAP file not found'}), 404
             
-            # Compute metrics using subprocess
+            # Compute metrics using subprocess (10% sampling for speed)
             cmd = [
                 sys.executable,
-                'scripts/run_metrics.py',
+                'scripts/extract_metrics_sampled.py',
                 '--pcap', pcap_path,
+                '--sample-rate', '0.10',
                 '--out', metrics_file
             ]
             
@@ -324,11 +325,12 @@ def analyze_dataset():
             if not pcap_path or not os.path.exists(pcap_path):
                 return jsonify({'success': False, 'error': 'PCAP file not found'}), 404
             
-            # Compute metrics using subprocess
+            # Compute metrics using subprocess (10% sampling for speed)
             cmd = [
                 sys.executable,
-                'scripts/run_metrics.py',
+                'scripts/extract_metrics_sampled.py',
                 '--pcap', pcap_path,
+                '--sample-rate', '0.10',
                 '--out', metrics_file
             ]
             
