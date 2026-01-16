@@ -47,6 +47,8 @@ class APIConfig:
     METRICS_DIR = 'logs'
     BASELINES_DIR = 'app/baselines'
     ANOMALIES_DIR = 'logs'
+    UPLOAD_DIR = 'data/uploads'
+    MODELS_DIR = 'app/ml/models'
     
     # Default analysis parameters
     WINDOW_SIZE = 10  # seconds
@@ -132,11 +134,15 @@ def register_blueprints(app: Flask) -> None:
     from api.route_anomalies import anomalies_bp
     from api.routes_baselines import baselines_bp
     from api.routes_control import control_bp
+    from api.route_upload import upload_bp
+    from api.route_training import training_bp
     
     app.register_blueprint(metrics_bp, url_prefix='/api/metrics')
     app.register_blueprint(anomalies_bp, url_prefix='/api/anomalies')
     app.register_blueprint(baselines_bp, url_prefix='/api/baselines')
     app.register_blueprint(control_bp, url_prefix='/api/control')
+    app.register_blueprint(upload_bp, url_prefix='/api')
+    app.register_blueprint(training_bp, url_prefix='/api')
 
 
 def register_error_handlers(app: Flask) -> None:

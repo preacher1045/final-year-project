@@ -6,8 +6,63 @@ __pycache__/
 # C extensions
 *.so
 
+# Project-specific: Network Traffic Analyzer
+# ============================================
 
-logs/*.jsonl
+# Virtual environments (including custom ones)
+iso_forest/
+.venv/
+venv/
+env/
+
+# Logs and metrics
+logs/
+*.log
+*.jsonl
+
+# Data files (PCAP, processed data, uploads)
+data/raw/
+data/uploads/
+data/processes/
+data/baselines/
+*.pcap
+*.pcapng
+*.cap
+
+# ML Models (trained models can be large)
+app/ml/models/
+*.pkl
+*.joblib
+*_metadata.json
+
+# Generated reports and visualizations
+reports/
+*.png
+*.jpg
+*.pdf
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
 
 
 # Distribution / packaging
@@ -131,6 +186,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+iso_forest/
 
 # Spyder project settings
 .spyderproject
