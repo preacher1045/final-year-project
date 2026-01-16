@@ -6,7 +6,7 @@ from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-log_folder = "logs"
+log_folder = "backend/logs"
 log_file = "app.log"
 
 def setup_logging():

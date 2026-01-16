@@ -192,7 +192,7 @@ class FeatureExtractor:
     @staticmethod
     def _get_value(d: Dict[str, Any], key: str, default: Any = None) -> Any:
         """Safely extract values from dict."""
-        if isinstance(d, dict) and key in d:
+        if isinstance(d, dict) and key in d and d[key] is not None:
             return d[key]
         return default
     

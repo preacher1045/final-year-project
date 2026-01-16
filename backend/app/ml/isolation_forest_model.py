@@ -46,7 +46,7 @@ class IsolationForestModel:
     """
     
     def __init__(self, contamination: float = 0.1, n_estimators: int = 100,
-                 random_state: int = 42, model_dir: str = 'app/ml/models'):
+                 random_state: int = 42, model_dir: str = 'backend/app/ml/models'):
         self.contamination = contamination
         self.n_estimators = n_estimators
         self.random_state = random_state
@@ -61,8 +61,8 @@ class IsolationForestModel:
     def train(self, X: np.ndarray, feature_names: List[str], 
               model_name: str = 'default') -> Dict[str, Any]:
         """Train the Isolation Forest model."""
-        if X.shape[0] < 10:
-            raise ValueError(f"Need at least 10 samples, got {X.shape[0]}")
+        if X.shape[0] < 2:
+            raise ValueError(f"Need at least 2 samples, got {X.shape[0]}")
         
         self.feature_names = feature_names
         self.model = IsolationForest(

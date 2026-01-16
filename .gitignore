@@ -23,12 +23,14 @@ logs/
 # Data files (PCAP, processed data, uploads)
 data/raw/
 data/uploads/
-data/processes/
+data/processed/
 data/baselines/
 data/training_data/
 *.pcap
 *.pcapng
 *.cap
+scripts/
+*.sh
 
 # ML Models (trained models can be large)
 app/ml/models/

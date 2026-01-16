@@ -9,6 +9,7 @@ Endpoints for ML-based anomaly detection using Isolation Forest.
 
 import json
 import os
+import logging
 from typing import Dict, Any, List
 from datetime import datetime
 from flask import Blueprint, jsonify, request, current_app
@@ -16,6 +17,8 @@ import numpy as np
 
 from app.ml.isolation_forest_model import IsolationForestModel
 from app.ml.feature_extractor import FeatureExtractor
+
+logger = logging.getLogger(__name__)
 
 anomalies_bp = Blueprint('anomalies', __name__)
 
@@ -115,10 +118,15 @@ def detect_anomalies():
         model_name = data.get('model_name', 'default')
         metrics_file = data.get('metrics_file', 'logs/metrics.jsonl')
         
+        logger.info(f"Starting anomaly detection with model={model_name}, metrics={metrics_file}")
+        
         # Load metrics
         metrics = load_metrics_file(metrics_file)
         if not metrics:
+            logger.error(f"No metrics found in {metrics_file}")
             return jsonify({'success': False, 'error': 'No metrics found'}), 400
+        
+        logger.info(f"Loaded {len(metrics)} metric windows")
         
         # Load model
         model = IsolationForestModel(
@@ -126,23 +134,43 @@ def detect_anomalies():
         )
         
         if not model.load(model_name):
+            logger.error(f"Model not found: {model_name}")
             return jsonify({
                 'success': False,
                 'error': f'Model not found: {model_name}'
             }), 404
         
+        logger.info(f"Loaded model: {model_name}")
+        
         # Extract features
         extractor = FeatureExtractor()
-        X, valid_indices = extractor.extract_batch(metrics)
+        X, valid_indices, stats = extractor.extract_batch(metrics)
+        
+        logger.info(f"Extracted feature matrix: {X.shape}")
         
         if X.shape[0] == 0:
+            logger.error("No valid samples after feature extraction")
             return jsonify({'success': False, 'error': 'No valid samples'}), 400
         
         # Normalize
         X_norm = extractor.normalize(X, fit=False)
         
         # Predict
+        logger.info("Running anomaly detection...")
         results = model.predict_with_insights(X_norm, valid_indices)
+        
+        # Log individual anomalies
+        anomaly_count = 0
+        for idx, result in enumerate(results):
+            if result['is_anomaly']:
+                anomaly_count += 1
+                severity = result['severity'].upper()
+                prob = result['anomaly_probability']
+                window_idx = result['index']
+                if severity == 'HIGH':
+                    logger.error(f"[W{window_idx}] [ANOMALY] [{severity}] Detected (prob={prob:.2f})")
+                else:
+                    logger.warning(f"[W{window_idx}] [ANOMALY] [{severity}] Detected (prob={prob:.2f})")
         
         # Save anomalies
         anomalies_file = os.path.join(
@@ -150,6 +178,7 @@ def detect_anomalies():
             'anomalies.jsonl'
         )
         save_anomalies(results, anomalies_file)
+        logger.info(f"Saved {len(results)} predictions to {anomalies_file}")
         
         # Summarize
         summary = {
@@ -159,13 +188,19 @@ def detect_anomalies():
         }
         
         anomaly_count = sum(1 for r in results if r['is_anomaly'])
+        anomaly_rate = float(anomaly_count / len(results)) if results else 0
+        
+        logger.info("=" * 70)
+        logger.info(f"Anomaly detection complete: {len(results)} windows, {anomaly_count} anomalies ({anomaly_rate:.1%})")
+        logger.info(f"By severity: HIGH={summary['high']}, MEDIUM={summary['medium']}, LOW={summary['low']}")
+        logger.info("=" * 70)
         
         return jsonify({
             'success': True,
             'anomaly_count': anomaly_count,
             'anomalies_by_severity': summary,
             'total_samples': len(results),
-            'anomaly_rate': float(anomaly_count / len(results)) if results else 0,
+            'anomaly_rate': anomaly_rate,
             'message': 'Anomaly detection completed',
             'timestamp': datetime.utcnow().isoformat(),
         }), 200

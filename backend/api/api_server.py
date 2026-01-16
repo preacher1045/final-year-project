@@ -30,10 +30,13 @@ from typing import Dict, Any, Tuple
 from flask import Flask, jsonify, request
 from pathlib import Path
 
-# Add project root to path
+# Add backend to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+import logging
 from app.main import setup_logging
+
+api_logger = logging.getLogger('api')
 
 
 class APIConfig:
@@ -44,11 +47,11 @@ class APIConfig:
     PORT = 5000
     
     # Storage paths
-    METRICS_DIR = 'logs'
-    BASELINES_DIR = 'app/baselines'
-    ANOMALIES_DIR = 'logs'
-    UPLOAD_DIR = 'data/uploads'
-    MODELS_DIR = 'app/ml/models'
+    METRICS_DIR = 'backend/logs'
+    BASELINES_DIR = 'backend/app/baselines'
+    ANOMALIES_DIR = 'backend/logs'
+    UPLOAD_DIR = 'backend/data/uploads'
+    MODELS_DIR = 'backend/app/ml/models'
     
     # Default analysis parameters
     WINDOW_SIZE = 10  # seconds
@@ -57,7 +60,7 @@ class APIConfig:
     
     # Mode: 'pcap' or 'live'
     MODE = 'pcap'
-    PCAP_FILE = 'data/raw/pcapng/test_net_traffic.pcapng'
+    PCAP_FILE = 'backend/data/raw/pcapng/test_net_traffic.pcapng'
     INTERFACE = None
     
     # API response settings
@@ -85,9 +88,20 @@ def create_app(config: Dict[str, Any]) -> Flask:
     
     # Setup logging
     setup_logging()
+    api_logger.info(f"API starting in {config.get('MODE')} mode")
     
     # Store config for routes to access
     app.analyzer_config = config
+    
+    # Add request/response logging middleware
+    @app.before_request
+    def log_request():
+        api_logger.info(f"→ {request.method} {request.path} from {request.remote_addr}")
+    
+    @app.after_request
+    def log_response(response):
+        api_logger.info(f"← {request.method} {request.path} [{response.status_code}]")
+        return response
     
     # Register error handlers
     register_error_handlers(app)
@@ -98,6 +112,7 @@ def create_app(config: Dict[str, Any]) -> Flask:
     # Register health check
     @app.route('/health', methods=['GET'])
     def health():
+        api_logger.info("Health check requested")
         return jsonify({
             'status': 'ok',
             'timestamp': datetime.utcnow().isoformat(),
@@ -224,7 +239,7 @@ def main():
     )
     parser.add_argument(
         '--pcap',
-        default='data/raw/pcapng/test_net_traffic.pcapng',
+        default='backend/data/raw/pcapng/test_net_traffic.pcapng',
         help='Path to PCAP file (for pcap mode)'
     )
     parser.add_argument(
